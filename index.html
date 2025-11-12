@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportHub - Premium Sports Equipment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-icon">SH</div>
+                    <span class="logo-text">SportHub</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav desktop-nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Equipments</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+
+                <!-- User & Cart Actions -->
+                <div class="header-actions">
+                    <!-- Search Icon Button -->
+                    <button class="icon-button" id="search-button" onclick="openSearchModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+
+                    <!-- User Account Button -->
+                    <button class="user-button desktop-only" id="user-button" onclick="openAuthModal()">
+                        <svg id="user-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="user-avatar" class="user-avatar" style="display: none;"></span>
+                        <span id="user-name">Login</span>
+                    </button>
+                    
+                    <!-- Cart Button -->
+                    <button class="cart-button" id="cart-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </button>
+                    
+                    <button class="menu-button mobile-only" id="menu-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="products.html" class="mobile-nav-link">Equipments</a>
+                <a href="#about" class="mobile-nav-link">About</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Élevez Votre Performance</h1>
+                <p class="hero-subtitle">
+                    Équipements sportifs premium pour athlètes exigeants. 
+                    Découvrez notre collection organisée par sport : maillots, chaussures et accessoires.
+                </p>
+                <button class="hero-button" onclick="window.location.href='products.html'">Découvrir</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Banner -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <h3 class="feature-title">Livraison Gratuite</h3>
+                    <p class="feature-text">Pour les commandes de plus de 100€</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Paiement Sécurisé</h3>
+                    <p class="feature-text">Transactions 100% sécurisées</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">↩️</div>
+                    <h3 class="feature-title">Retours 30 Jours</h3>
+                    <p class="feature-text">Politique de retour facile</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sports Section -->
+    <section class="sports-section" id="sports">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nos Différents Sports</h2>
+                <p class="section-subtitle">Nous vous proposons des équipements dans ces différentes disciplines sportives.</p>
+            </div>
+
+            <!-- Sports Grid -->
+            <div class="sports-grid">
+                <div class="sport-card" onclick="navigateToSport('football')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1686121177669-0ab65867ab84?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NjZXIlMjBmb290YmFsbCUyMGZpZWxkfGVufDF8fHx8MTc2MjA1NDIzNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Football">
+                    </div>
+                    <div class="sport-name">⚽ Football</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('basketball')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1633672267906-57dc7b0da6f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXNrZXRiYWxsJTIwY291cnQlMjBnYW1lfGVufDF8fHx8MTc2MTk2NjkwOXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Basketball">
+                    </div>
+                    <div class="sport-name">🏀 Basketball</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('natation')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1562016600-ece13e8ba570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzd2ltbWluZyUyMHBvb2wlMjB3YXRlcnxlbnwxfHx8fDE3NjIwNTQyMzd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Natation">
+                    </div>
+                    <div class="sport-name">🏊 Natation</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('boxe')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1715423058726-ddea1ec51b66?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib3hpbmclMjBnbG92ZXMlMjByaW5nfGVufDF8fHx8MTc2MjA1NDIzN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Boxe">
+                    </div>
+                    <div class="sport-name">🥊 Boxe</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('tennis')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1724352067238-5642271e8d9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZW5uaXMlMjBjb3VydCUyMHJhY2tldHxlbnwxfHx8fDE3NjIwNTQyMzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Tennis">
+                    </div>
+                    <div class="sport-name">🎾 Tennis</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('running')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1526676317768-d9b14f15615a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxydW5uaW5nJTIwdHJhY2slMjBhdGhsZXRlfGVufDF8fHx8MTc2MTk2NDk1N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Running">
+                    </div>
+                    <div class="sport-name">🏃 Running</div>
+                </div>
+
+                <div class="sport-card" onclick="navigateToSport('fitness')">
+                    <div class="sport-image">
+                        <img src="https://images.unsplash.com/photo-1756115484694-009466dbaa67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaXRuZXNzJTIwZ3ltJTIwd29ya291dHxlbnwxfHx8fDE3NjIwNTQyMzh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Fitness">
+                    </div>
+                    <div class="sport-name">💪 Fitness</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-wrapper">
+                <div class="about-texts">
+                    <h2 class="about-title">À propos de <span>SportHub</span></h2>
+                    <p class="about-description">
+                    <strong>SportHub</strong> est une plateforme dédiée à la vente d’équipements de sport. 
+                    Nous vous proposons des produits de <strong>qualité</strong> à des prix compétitifs pour 
+                    de nombreuses disciplines : football, basketball, natation, tennis et bien plus encore.
+                    </p>
+                    <p class="about-description">
+                    Nous garantissons un <strong>paiement sécurisé</strong> et un 
+                    <strong>service client réactif</strong> prêt à répondre à toutes vos questions.
+                    </p>
+                    <a href="products.html" class="about-btn">Découvrir nos produits</a>
+                </div>
+
+                <div class="about-image">
+                    <img src="img/about.jpg" alt="SportHub équipements de sport">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contactez-nous</h2>
+                <p class="section-subtitle">Pour toute doléance, notre service client est là pour vous servir</p>
+            </div>
+            <div class="RS-container">
+                <div class="tel">
+                    <a href="tel:+237656811641"> 
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+237 656811641</span>
+                    </a> 
+                </div>
+                <div class="mail">
+                    <a href="mailto:SportHub@gmail.com">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span> SportHub@gmail.com</span>
+                    </a>
+                </div>
+                <div class="whatsapp">
+                    <a href="https://wa.me/237656811641">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>Whatsapp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <div class="logo-icon">⚡</div>
+                        <span class="logo-text">SportHub</span>
+                    </div>
+                    <p class="footer-text">
+                        Votre première destination pour des équipements et appareils sportifs de qualité.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Sports</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="navigateToSport('football')" style="cursor: pointer;">Football</a></li>
+                        <li><a onclick="navigateToSport('basketball')" style="cursor: pointer;">Basketball</a></li>
+                        <li><a onclick="navigateToSport('natation')" style="cursor: pointer;">Natation</a></li>
+                        <li><a onclick="navigateToSport('tennis')" style="cursor: pointer;">Tennis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 SportHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-overlay" id="cart-overlay"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Panier (<span id="cart-count">0</span> articles)
+                </h2>
+                <button class="close-button" id="close-cart">×</button>
+            </div>
+
+            <div class="cart-body" id="cart-body">
+                <!-- Cart items will be inserted here -->
+            </div>
+
+            <div class="cart-empty" id="cart-empty">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <h3>Votre panier est vide</h3>
+                <p>Ajoutez des produits pour commencer !</p>
+                <button class="btn btn-primary" onclick="closeCart()">Continuer vos achats</button>
+            </div>
+
+            <div class="cart-footer" id="cart-footer">
+                <div class="cart-totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row small">
+                        <span>Shipping</span>
+                        <span>Calculated at checkout</span>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="total-row large">
+                        <span>Total</span>
+                        <span class="total-amount" id="cart-total">$0.00</span>
+                    </div>
+                </div>
+                <button class="btn btn-checkout" onclick="handleCheckout()">Proceed to Checkout</button>
+                <button class="btn btn-outline" onclick="closeCart()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-overlay" onclick="closeProductModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeProductModal()">×</button>
+            <div class="modal-body" id="modal-body">
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="modal-content" style="max-width: 28rem;">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            <div class="modal-body">
+                <div class="auth-container">
+                    <!-- Login Form -->
+                    <div class="auth-form" id="login-form">
+                        <h2 style="margin-bottom: 1.5rem; text-align: center;">Login to Your Account</h2>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" class="form-input" required>
+                            </div>
+                            <div id="login-error" class="error-message"></div>
+                            <button type="submit" class="btn btn-primary" id="login-btn">Login</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem; color: #6b7280;">
+                            Don't have an account? 
+                            <a href="#" onclick="showRegisterForm(); return false;" style="color: #2563eb; text-decoration: none;">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div class="auth-form" id="register-form" style="display: none;">
+                        <h2 style="margin-bottom: 1.5rem; text-align: center;">Create an Account</h2>
+                        <form onsubmit="handleRegister(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="register-firstname">First Name</label>
+                                    <input type="text" id="register-firstname" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="register-lastname">Last Name</label>
+                                    <input type="text" id="register-lastname" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-email">Email Address</label>
+                                <input type="email" id="register-email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password">Password</label>
+                                <input type="password" id="register-password" class="form-input" minlength="6" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password-confirm">Confirm Password</label>
+                                <input type="password" id="register-password-confirm" class="form-input" minlength="6" required>
+                            </div>
+                            <div id="register-error" class="error-message"></div>
+                            <button type="submit" class="btn btn-primary" id="register-btn">Create Account</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem; color: #6b7280;">
+                            Already have an account? 
+                            <a href="#" onclick="showLoginForm(); return false;" style="color: #2563eb; text-decoration: none;">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal" id="search-modal">
+        <div class="modal-overlay" onclick="closeSearchModal()"></div>
+        <div class="modal-content" style="max-width: 40rem; margin-top: 5rem;">
+            <button class="modal-close" onclick="closeSearchModal()">×</button>
+            <div class="modal-body">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Rechercher des produits</h2>
+                <div class="search-modal-input">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="search" id="search-modal-input" placeholder="Rechercher par nom, sport, ou description..." class="search-input" autofocus>
+                </div>
+                <div id="search-results" class="search-results">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Info Modal -->
+    <div class="modal" id="shipping-modal">
+        <div class="modal-overlay" onclick="closeShippingModal()"></div>
+        <div class="modal-content" style="max-width: 32rem;">
+            <button class="modal-close" onclick="closeShippingModal()">×</button>
+            <div class="modal-body">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Informations de Livraison</h2>
+                <form onsubmit="handleShippingSubmit(event)">
+                    <div class="form-group">
+                        <label for="shipping-address">Adresse</label>
+                        <input type="text" id="shipping-address" class="form-input" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shipping-city">Ville</label>
+                            <input type="text" id="shipping-city" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-postal">Code Postal</label>
+                            <input type="text" id="shipping-postal" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-country">Pays</label>
+                        <input type="text" id="shipping-country" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-phone">Téléphone (optionnel)</label>
+                        <input type="tel" id="shipping-phone" class="form-input">
+                    </div>
+                    <div id="shipping-error" class="error-message"></div>
+                    <button type="submit" class="btn btn-primary" id="shipping-btn">Confirmer la Commande</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

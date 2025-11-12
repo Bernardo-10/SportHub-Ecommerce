@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipments - SportHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+                    <div class="logo-icon">SH</div>
+                    <span class="logo-text">SportHub</span>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav desktop-nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Equipments</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </nav>
+
+                <!-- User & Cart Actions -->
+                <div class="header-actions">
+                    <!-- Search Icon Button -->
+                    <button class="icon-button" id="search-button" onclick="openSearchModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+
+                    <!-- User Account Button -->
+                    <button class="user-button desktop-only" id="user-button" onclick="openAuthModal()">
+                        <svg id="user-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="user-avatar" class="user-avatar" style="display: none;"></span>
+                        <span id="user-name">Login</span>
+                    </button>
+                    
+                    <!-- Cart Button -->
+                    <button class="cart-button" id="cart-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </button>
+                    
+                    <button class="menu-button mobile-only" id="menu-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="products.html" class="mobile-nav-link">Equipments</a>
+                <a href="index.html#about" class="mobile-nav-link">About</a>
+                <a href="index.html#contact" class="mobile-nav-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nos Equipements par Sport</h2>
+                <p class="section-subtitle">Parcourez notre collection d'équipements sportifs organisée par discipline</p>
+            </div>
+
+            <!-- Sport Filter -->
+            <div class="category-tabs">
+                <button class="tab-button active" data-sport="all">Tous</button>
+                <button class="tab-button" data-sport="football">⚽ Football</button>
+                <button class="tab-button" data-sport="basketball">🏀 Basketball</button>
+                <button class="tab-button" data-sport="natation">🏊 Natation</button>
+                <button class="tab-button" data-sport="boxe">🥊 Boxe</button>
+                <button class="tab-button" data-sport="tennis">🎾 Tennis</button>
+                <button class="tab-button" data-sport="running">🏃 Running</button>
+                <button class="tab-button" data-sport="fitness">💪 Fitness</button>
+            </div>
+
+            <!-- Equipment Category Filter -->
+            <div class="equipment-filter" id="equipment-filter">
+                <span style="margin-right: 1rem; color: #6b7280;">Filtrer par équipement:</span>
+                <button class="filter-button active" data-category="all">Tous</button>
+                <button class="filter-button" data-category="maillots">Maillots</button>
+                <button class="filter-button" data-category="chaussures">Chaussures</button>
+                <button class="filter-button" data-category="accessoires">Accessoires</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="no-results" style="display: none;">
+                <p>Aucun produit trouvé correspondant à vos critères</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <div class="logo-icon">⚡</div>
+                        <span class="logo-text">SportHub</span>
+                    </div>
+                    <p class="footer-text">
+                        Votre première destination pour des équipements et appareils sportifs de qualité.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Sports</h4>
+                    <ul class="footer-links">
+                        <li><a onclick="navigateToSport('football')" style="cursor: pointer;">Football</a></li>
+                        <li><a onclick="navigateToSport('basketball')" style="cursor: pointer;">Basketball</a></li>
+                        <li><a onclick="navigateToSport('natation')" style="cursor: pointer;">Natation</a></li>
+                        <li><a onclick="navigateToSport('tennis')" style="cursor: pointer;">Tennis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 SportHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Top button-->
+    <button id="btnTop" title="Remonter en haut">
+        <i class="fa-solid fa-up-long"></i>
+    </button>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-overlay" id="cart-overlay"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    Panier (<span id="cart-count">0</span> articles)
+                </h2>
+                <button class="close-button" id="close-cart">×</button>
+            </div>
+
+            <div class="cart-body" id="cart-body">
+                <!-- Cart items will be inserted here -->
+            </div>
+
+            <div class="cart-empty" id="cart-empty">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <h3>Votre panier est vide</h3>
+                <p>Ajoutez des produits pour commencer !</p>
+                <button class="btn btn-primary" onclick="closeCart()">Continuer vos achats</button>
+            </div>
+
+            <div class="cart-footer" id="cart-footer">
+                <div class="cart-totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row small">
+                        <span>Shipping</span>
+                        <span>Calculated at checkout</span>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="total-row large">
+                        <span>Total</span>
+                        <span class="total-amount" id="cart-total">$0.00</span>
+                    </div>
+                </div>
+                <button class="btn btn-checkout" onclick="handleCheckout()">Proceed to Checkout</button>
+                <button class="btn btn-outline" onclick="closeCart()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-overlay" onclick="closeProductModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeProductModal()">×</button>
+            <div class="modal-body" id="modal-body">
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Register Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-overlay" onclick="closeAuthModal()"></div>
+        <div class="modal-content" style="max-width: 28rem;">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            <div class="modal-body">
+                <div class="auth-container">
+                    <!-- Login Form -->
+                    <div class="auth-form" id="login-form">
+                        <h2 style="margin-bottom: 1.5rem; text-align: center;">Login to Your Account</h2>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label for="login-email">Email Address</label>
+                                <input type="email" id="login-email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" class="form-input" required>
+                            </div>
+                            <div id="login-error" class="error-message"></div>
+                            <button type="submit" class="btn btn-primary" id="login-btn">Login</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem; color: #6b7280;">
+                            Don't have an account? 
+                            <a href="#" onclick="showRegisterForm(); return false;" style="color: #2563eb; text-decoration: none;">Register here</a>
+                        </p>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div class="auth-form" id="register-form" style="display: none;">
+                        <h2 style="margin-bottom: 1.5rem; text-align: center;">Create an Account</h2>
+                        <form onsubmit="handleRegister(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="register-firstname">First Name</label>
+                                    <input type="text" id="register-firstname" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="register-lastname">Last Name</label>
+                                    <input type="text" id="register-lastname" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-email">Email Address</label>
+                                <input type="email" id="register-email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password">Password</label>
+                                <input type="password" id="register-password" class="form-input" minlength="6" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password-confirm">Confirm Password</label>
+                                <input type="password" id="register-password-confirm" class="form-input" minlength="6" required>
+                            </div>
+                            <div id="register-error" class="error-message"></div>
+                            <button type="submit" class="btn btn-primary" id="register-btn">Create Account</button>
+                        </form>
+                        <p style="text-align: center; margin-top: 1rem; color: #6b7280;">
+                            Already have an account? 
+                            <a href="#" onclick="showLoginForm(); return false;" style="color: #2563eb; text-decoration: none;">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal" id="search-modal">
+        <div class="modal-overlay" onclick="closeSearchModal()"></div>
+        <div class="modal-content" style="max-width: 40rem; margin-top: 5rem;">
+            <button class="modal-close" onclick="closeSearchModal()">×</button>
+            <div class="modal-body">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Rechercher des produits</h2>
+                <div class="search-modal-input">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="search" id="search-modal-input" placeholder="Rechercher par nom, sport, ou description..." class="search-input" autofocus>
+                </div>
+                <div id="search-results" class="search-results">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Info Modal -->
+    <div class="modal" id="shipping-modal">
+        <div class="modal-overlay" onclick="closeShippingModal()"></div>
+        <div class="modal-content" style="max-width: 32rem;">
+            <button class="modal-close" onclick="closeShippingModal()">×</button>
+            <div class="modal-body">
+                <h2 style="margin-bottom: 1.5rem; text-align: center;">Informations de Livraison</h2>
+                <form onsubmit="handleShippingSubmit(event)">
+                    <div class="form-group">
+                        <label for="shipping-address">Adresse</label>
+                        <input type="text" id="shipping-address" class="form-input" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shipping-city">Ville</label>
+                            <input type="text" id="shipping-city" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping-postal">Code Postal</label>
+                            <input type="text" id="shipping-postal" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-country">Pays</label>
+                        <input type="text" id="shipping-country" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-phone">Téléphone (optionnel)</label>
+                        <input type="tel" id="shipping-phone" class="form-input">
+                    </div>
+                    <div id="shipping-error" class="error-message"></div>
+                    <button type="submit" class="btn btn-primary" id="shipping-btn">Confirmer la Commande</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
