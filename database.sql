@@ -20,8 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `sporthub_db`
 --
-CREATE DATABASE IF NOT EXISTS sporthub_db;
-USE sporthub_db;
+
 -- --------------------------------------------------------
 
 --
