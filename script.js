@@ -739,12 +739,22 @@ async function handleShippingSubmit(event) {
         
         if (response.ok && data.success) {
             showToast(`Commande confirmée ! Numéro: ${data.orderId}`, 'success');
+            
+            // Create WhatsApp message with invoice details
+            const whatsappMessage = createWhatsAppInvoiceMessage(data, phone);
+            
+            // Clear cart
             cart = [];
             updateCart();
             closeShippingModal();
             
             // Reload products to update stock
             loadProducts();
+            
+            // Redirect to WhatsApp after a short delay
+            setTimeout(() => {
+                sendWhatsAppInvoice(whatsappMessage);
+            }, 1000);
         } else {
             errorEl.textContent = data.error || 'Échec de la commande. Veuillez réessayer.';
         }
@@ -855,19 +865,79 @@ function selectSearchResult(productId) {
         openProductModal(productId);
     }, 500);
 }
-// ============ BACK TO TOP BUTTON ============
-  const btn = document.getElementById("btnTop");
 
-  // Quand on défile vers le bas de 100px, on affiche le bouton
-  window.onscroll = function() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      btn.style.display = "block";
-    } else {
-      btn.style.display = "none";
-    }
-  };
+// ============ WHATSAPP INVOICE FUNCTIONS ============
 
-  // Quand on clique, on remonte doucement en haut
-  btn.onclick = function() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+// Create WhatsApp invoice message
+function createWhatsAppInvoiceMessage(orderData, customerPhone) {
+    const { orderId, totalAmount, orderItems, userInfo, shippingInfo } = orderData;
+    
+    // Format order date
+    const orderDate = new Date().toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    
+    // Build message
+    let message = `🏪 *FACTURE SPORTHUB*\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+    message += `📋 *Commande #${orderId}*\n`;
+    message += `📅 Date: ${orderDate}\n\n`;
+    
+    // Customer info
+    message += `👤 *INFORMATIONS CLIENT*\n`;
+    message += `Nom: ${userInfo.firstName} ${userInfo.lastName}\n`;
+    message += `Email: ${userInfo.email}\n`;
+    message += `Téléphone: ${customerPhone}\n\n`;
+    
+    // Shipping info
+    message += `📦 *ADRESSE DE LIVRAISON*\n`;
+    message += `${shippingInfo.address}\n`;
+    message += `${shippingInfo.city}, ${shippingInfo.postalCode}\n`;
+    message += `${shippingInfo.country}\n\n`;
+    
+    // Order items
+    message += `🛒 *ARTICLES COMMANDÉS*\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━\n`;
+    
+    orderItems.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        message += `\n${index + 1}. *${item.name}*\n`;
+        message += `   Qté: ${item.quantity} x ${formatPrice(item.price)} FCFA\n`;
+        message += `   Sous-total: ${formatPrice(itemTotal)} FCFA\n`;
+    });
+    
+    // Total
+    message += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `💰 *TOTAL: ${formatPrice(totalAmount)} FCFA*\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
+    message += `✅ Commande confirmée avec succès !\n`;
+    message += `📞 Nous vous contacterons bientôt pour la livraison.\n\n`;
+    message += `Merci de votre confiance ! ⚡`;
+    
+    return message;
+}
+
+// Format price with spaces
+function formatPrice(price) {
+    return Math.round(price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// Send invoice via WhatsApp
+function sendWhatsAppInvoice(message) {
+    // Get WhatsApp number from config
+    const businessWhatsAppNumber = SITE_CONFIG.whatsappNumber;
+    
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${businessWhatsAppNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new window
+    window.open(whatsappUrl, '_blank');
+}

@@ -140,13 +140,21 @@ function createOrder() {
         
         $conn->commit();
         
-        // Send email confirmation to user
-        sendOrderConfirmationEmail($orderId, $orderItems, $totalAmount);
+        // Get user info for WhatsApp message
+        $userInfo = getUserInfoForWhatsApp($_SESSION['user_id']);
         
         echo json_encode([
             'success' => true,
             'orderId' => $orderId,
-            'totalAmount' => $totalAmount
+            'totalAmount' => $totalAmount,
+            'orderItems' => $orderItems,
+            'userInfo' => $userInfo,
+            'shippingInfo' => [
+                'address' => $shippingAddress,
+                'city' => $shippingCity,
+                'postalCode' => $shippingPostalCode,
+                'country' => $shippingCountry
+            ]
         ]);
         
     } catch (Exception $e) {
@@ -224,94 +232,26 @@ function getOrder($orderId) {
     echo json_encode($order);
 }
 
-function sendOrderConfirmationEmail($orderId, $orderItems, $totalAmount) {
-    if (!isset($_SESSION['user_id'])) {
-        return;
-    }
-    
+function getUserInfoForWhatsApp($userId) {
     $conn = getDBConnection();
     
-    // Get user email
-    $stmt = $conn->prepare("SELECT email, first_name FROM users WHERE id_user = ?");
-    $stmt->execute([$_SESSION['user_id']]);
+    // Get user info
+    $stmt = $conn->prepare("SELECT email, first_name, last_name FROM users WHERE id_user = ?");
+    $stmt->execute([$userId]);
     $user = $stmt->fetch();
     
-    if (!$user || !$user['email']) {
-        return;
+    if (!$user) {
+        return [
+            'firstName' => 'Client',
+            'lastName' => '',
+            'email' => ''
+        ];
     }
     
-    $userEmail = $user['email'];
-    $firstName = $user['first_name'] ?? 'Client';
-    
-    // Build email content
-    $subject = "Confirmation de commande #$orderId - SportHub";
-    
-    $message = "<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='UTF-8'>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(to right, #2563eb, #ea580c); color: white; padding: 20px; text-align: center; }
-        .content { background: #f9fafb; padding: 20px; }
-        .order-item { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; }
-        .total { background: #2563eb; color: white; padding: 15px; margin-top: 20px; text-align: center; font-size: 1.2em; }
-        .footer { text-align: center; padding: 20px; color: #6b7280; }
-    </style>
-</head>
-<body>
-    <div class='container'>
-        <div class='header'>
-            <h1>⚡ SportHub</h1>
-            <p>Confirmation de Commande</p>
-        </div>
-        <div class='content'>
-            <h2>Bonjour $firstName,</h2>
-            <p>Merci pour votre commande ! Voici le récapitulatif de votre achat :</p>
-            <p><strong>Numéro de commande :</strong> #$orderId</p>
-            <h3>Articles commandés :</h3>";
-    
-    // Add each item
-    foreach ($orderItems as $item) {
-        $itemName = htmlspecialchars($item['name'] ?? 'Article');
-        $itemPrice = number_format($item['price'], 0, ',', ' ');
-        $quantity = $item['quantity'];
-        $itemTotal = number_format($item['price'] * $quantity, 0, ',', ' ');
-        
-        $message .= "
-            <div class='order-item'>
-                <strong>$itemName</strong><br>
-                Prix unitaire : $itemPrice FCFA<br>
-                Quantité : $quantity<br>
-                <strong>Total : $itemTotal FCFA</strong>
-            </div>";
-    }
-    
-    $totalFormatted = number_format($totalAmount, 0, ',', ' ');
-    
-    $message .= "
-            <div class='total'>
-                <strong>TOTAL : $totalFormatted FCFA</strong>
-            </div>
-            <p style='margin-top: 20px;'>Votre commande sera traitée dans les plus brefs délais. Vous recevrez un email de confirmation d'expédition dès que votre commande sera envoyée.</p>
-        </div>
-        <div class='footer'>
-            <p>Merci de faire confiance à SportHub !</p>
-            <p>Pour toute question, contactez-nous à SportHub@gmail.com</p>
-            <p>&copy; 2025 SportHub. Tous droits réservés.</p>
-        </div>
-    </div>
-</body>
-</html>";
-    
-    // Set email headers
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: SportHub <noreply@sporthub.com>\r\n";
-    $headers .= "Reply-To: SportHub@gmail.com\r\n";
-    
-    // Send email
-    @mail($userEmail, $subject, $message, $headers);
+    return [
+        'firstName' => $user['first_name'] ?? 'Client',
+        'lastName' => $user['last_name'] ?? '',
+        'email' => $user['email'] ?? ''
+    ];
 }
 ?>
